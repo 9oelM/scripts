@@ -1,0 +1,18 @@
+#!/bin/bash
+sudo service network-manager stop
+echo "network-manager stopped"
+sudo ifconfig wlan0 down
+sudo ifconfig eth0 down
+echo "wlan0 and eth0 turned off"
+sudo macchanger -A wlan0
+sudo macchanger -A eth0
+echo "wlan0 and eth0 mac address randomly set."
+sudo ifconfig wlan0 up
+sudo ifconfig eth0 up
+# eth0 = `ifconfig | grep 'ether' | awk -F ' ' '{print $2}' | head -n 1`
+# wlan0 = ifconfig | grep 'ether' | awk -F ' ' '{print $2}' | tail -n 1`
+# echo "eth0 has been set as: $eth0"
+# echo "wlan0 has been set as: $wlan0"
+echo "network-manager restarting"
+sudo service network-manager start
+
